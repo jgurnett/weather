@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:weather/src/constants/consts.dart';
 
 class HourlyForecastItem extends StatelessWidget {
   final IconData weatherIcon;
@@ -15,8 +16,6 @@ class HourlyForecastItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const String degreeSymbol = '\u00B0';
-
     return Container(
       width: 100,
       margin: const EdgeInsets.all(8),

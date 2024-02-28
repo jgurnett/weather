@@ -13,7 +13,10 @@ class Overview extends StatelessWidget {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          const CurrentWeather(),
+          CurrentWeather(
+            city: 'Edmonton',
+            currentTemp: -11,
+          ),
           SliverList(
             delegate: SliverChildListDelegate.fixed([
               // Your DailyWeatherForcast widget
