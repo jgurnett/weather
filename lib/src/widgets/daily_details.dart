@@ -1,9 +1,4 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'package:weather/src/models/weather.dart';
-import 'package:intl/intl.dart';
-import 'package:weather/src/widgets/hourly_forcast_item.dart';
 
 class DailyDetails extends StatelessWidget {
   final DateTime sunrise;
@@ -11,12 +6,13 @@ class DailyDetails extends StatelessWidget {
   final String windSpeed;
   final double humidity;
 
-  const DailyDetails(
-      {super.key,
-      required this.sunrise,
-      required this.sunset,
-      required this.windSpeed,
-      required this.humidity});
+  const DailyDetails({
+    super.key,
+    required this.sunrise,
+    required this.sunset,
+    required this.windSpeed,
+    required this.humidity,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -34,95 +30,61 @@ class DailyDetails extends StatelessWidget {
           decoration: const BoxDecoration(
             border: Border(
               top: BorderSide(
-                color: Colors.black, // Choose your border color
-                width: 1.0, // Adjust border width as needed
+                color: Colors.black,
+                width: 1.0,
               ),
             ),
           ),
-          child: Padding(
-            padding: const EdgeInsets.only(top: 16, bottom: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'Sunrise',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    Text(
-                      '${sunrise.hour}:${sunrise.minute}',
-                      style: const TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'Sunset',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    Text(
-                      '${sunset.hour}:${sunset.minute}',
-                      style: const TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              _buildDetailColumn(
+                  'Sunrise', '${sunrise.hour}:${sunrise.minute}'),
+              _buildDetailColumn('Sunset', '${sunset.hour}:${sunset.minute}'),
+            ],
           ),
         ),
         Container(
           decoration: const BoxDecoration(
             border: Border(
               top: BorderSide(
-                color: Colors.black, // Choose your border color
-                width: 1.0, // Adjust border width as needed
+                color: Colors.black,
+                width: 1.0,
               ),
             ),
           ),
-          child: Padding(
-            padding: const EdgeInsets.only(top: 16, bottom: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'Wind',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    Text(
-                      windSpeed,
-                      style: const TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'Humidity',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    Text(
-                      '$humidity %',
-                      style: const TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              _buildDetailColumn('Wind', windSpeed),
+              _buildDetailColumn('Humidity', '$humidity %'),
+            ],
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildDetailColumn(String title, String value) {
+    return Expanded(
+      child: Column(
+        children: [
+          Text(
+            title,
+            style: const TextStyle(fontSize: 16),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            value,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
