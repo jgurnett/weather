@@ -1,12 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:weather/src/models/weather.dart';
+import 'package:weather/src/services/open_weather.dart';
 import 'package:weather/src/widgets/daily_details.dart';
 import 'package:weather/src/widgets/daily_forcast.dart';
 import 'package:weather/src/widgets/hourly_forcast.dart';
 import 'package:weather/src/widgets/current_weather.dart';
 
-class Overview extends StatelessWidget {
+class Overview extends StatefulWidget {
   const Overview({super.key});
+
+  @override
+  State<Overview> createState() => _OverviewState();
+}
+
+class _OverviewState extends State<Overview> {
+  late WeatherModel weatherData;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  Future<void> fetchData() async {
+    try {
+      final data = await fetchHourlyForecast();
+      print(data.city);
+      setState(() {
+        weatherData = data;
+      });
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,30 +40,19 @@ class Overview extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           CurrentWeather(
-            city: 'Edmonton',
-            currentTemp: -11,
+            city: weatherData.city,
+            currentTemp: weatherData.forecast,
           ),
           SliverList(
             delegate: SliverChildListDelegate.fixed([
-              // Your DailyWeatherForcast widget
               HourlyForecast(
-                hourlyForecast: [
-                  ForecastModel(
-                      temperature: -11,
-                      date: DateTime.now(),
-                      description: 'sunny'),
-                  ForecastModel(
-                      temperature: -11,
-                      date: DateTime.now().add(const Duration(hours: 3)),
-                      description: 'sunny'),
-                ],
+                hourlyForecast: weatherData.hourlyForecast.take(7).toList(),
               ),
-
               DailyDetails(
-                  sunrise: DateTime.now(),
-                  sunset: DateTime.now(),
-                  windSpeed: '12 km/h',
-                  humidity: 12.0),
+                  sunrise: weatherData.sunrise,
+                  sunset: weatherData.sunset,
+                  windSpeed: '${weatherData.windSpeed} km/h',
+                  humidity: weatherData.humidity),
               const DailyForecast(
                 dailyForecast: [
                   'monday',

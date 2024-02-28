@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:weather/src/models/weather.dart';
-import 'package:intl/intl.dart';
 import 'package:weather/src/widgets/hourly_forcast_item.dart';
 
 class HourlyForecast extends StatelessWidget {
@@ -21,7 +20,7 @@ class HourlyForecast extends StatelessWidget {
           ),
         ),
         Container(
-          height: 115, // Adjust height as needed
+          height: 115,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: hourlyForecast.length,
@@ -31,13 +30,13 @@ class HourlyForecast extends StatelessWidget {
                   hourlyForecast[index].description.toLowerCase();
 
               // Determine which icon to use based on weather description
-              if (weatherDescription.contains('cloudy')) {
+              if (weatherDescription.contains('cloud')) {
                 weatherIcon = Icons.cloud;
-              } else if (weatherDescription.contains('sunny')) {
+              } else if (weatherDescription.contains('sun')) {
                 weatherIcon = Icons.wb_sunny;
-              } else if (weatherDescription.contains('rainy')) {
+              } else if (weatherDescription.contains('rain')) {
                 weatherIcon = Icons.beach_access;
-              } else if (weatherDescription.contains('snowy')) {
+              } else if (weatherDescription.contains('snow')) {
                 weatherIcon = Icons.cloudy_snowing;
               } else {
                 weatherIcon =
