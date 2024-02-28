@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:weather/src/models/weather.dart';
+import 'package:weather/src/widgets/daily_details.dart';
 import 'package:weather/src/widgets/daily_forcast.dart';
 import 'package:weather/src/widgets/hourly_forcast.dart';
+import 'package:weather/src/widgets/current_weather.dart';
 
 class Overview extends StatelessWidget {
   const Overview({super.key});
@@ -9,53 +11,45 @@ class Overview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Weather Forecast'),
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          SizedBox(
-            height: 165, // Adjust height as needed
-            child: HourlyForecast(
-              hourlyForecast: [
-                ForecastModel(
-                    temperature: -11,
-                    date: DateTime.now(),
-                    description: 'sunny'),
-                ForecastModel(
-                    temperature: -11,
-                    date: DateTime.now().add(const Duration(hours: 3)),
-                    description: 'sunny'),
-                ForecastModel(
-                    temperature: -11,
-                    date: DateTime.now().add(const Duration(hours: 6)),
-                    description: 'cloudy'),
-                ForecastModel(
-                    temperature: -11,
-                    date: DateTime.now().add(const Duration(hours: 9)),
-                    description: 'cloudy'),
-                ForecastModel(
-                    temperature: -11,
-                    date: DateTime.now().add(const Duration(hours: 12)),
-                    description: 'snowy')
-              ],
-            ),
+      body: CustomScrollView(
+        slivers: [
+          const CurrentWeather(),
+          SliverList(
+            delegate: SliverChildListDelegate.fixed([
+              // Your DailyWeatherForcast widget
+              HourlyForecast(
+                hourlyForecast: [
+                  ForecastModel(
+                      temperature: -11,
+                      date: DateTime.now(),
+                      description: 'sunny'),
+                  ForecastModel(
+                      temperature: -11,
+                      date: DateTime.now().add(const Duration(hours: 3)),
+                      description: 'sunny'),
+                ],
+              ),
+
+              DailyDetails(
+                  sunrise: DateTime.now(),
+                  sunset: DateTime.now(),
+                  windSpeed: '12 km/h',
+                  humidity: 12.0),
+              const DailyForecast(
+                dailyForecast: [
+                  'monday',
+                  'tuesday',
+                  'wednesday',
+                  'thursday',
+                  'friday',
+                  'saturday'
+                ],
+              ),
+              const Padding(
+                padding: EdgeInsets.only(top: 16, bottom: 16),
+              ),
+            ]),
           ),
-          const SizedBox(
-            height: 145, // Adjust height as needed
-            child: DailyForecast(
-              dailyForecast: [
-                'monday',
-                'tuesday',
-                'wednesday',
-                'thursday',
-                'friday',
-                'saturday'
-              ],
-            ),
-          ),
-          // Add other child widgets here
         ],
       ),
     );
