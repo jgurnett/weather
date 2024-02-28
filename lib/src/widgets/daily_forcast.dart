@@ -13,7 +13,7 @@ class DailyForecast extends StatelessWidget {
         const Padding(
           padding: EdgeInsets.all(8.0),
           child: Text(
-            'Weekly Forecast',
+            'Weekly forecast',
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
         ),
